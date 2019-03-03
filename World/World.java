@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 
+@SuppressWarnings({"serial"})
 public class World extends JPanel{
 
 	private JFrame frame;
@@ -19,10 +20,11 @@ public class World extends JPanel{
 	private Image waterSprite;
 	private Image grassSprite;
 	private Image treeSprite;
-	private Humain homme;
+
 	private int world[][];
 	private int tableaucourant[][];
 	private ArrayList<Agent> agent;
+	private Map m;
 
 	private int sizex;
 	private int sizey;
@@ -32,25 +34,21 @@ public class World extends JPanel{
 		this.sizey=sizey;
 
 		world=new int[this.sizex][this.sizey];
-				//homme=new Humain((int)(Math.random()*sizex),(int)(Math.random()*sizey),sizex,sizey, "alligator.png");
+		tableaucourant=new int [this.sizex][this.sizey];
+		
+		m=new Map(sizex,sizey);
 		agent=new ArrayList<Agent>();
-		try
-		{
-			waterSprite = ImageIO.read(new File("water.png"));	
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			System.exit(-1);
-		}
+
+
 
 		frame = new JFrame("World of Sprite");
 		frame.add(this);
-		frame.setSize(300,300);
+		frame.setSize(32*sizex,32*sizey);
 		frame.setVisible(true);
 	}
 
 	public void addAgent(Agent a){
+		
 		agent.add(a);
 	}
 
@@ -58,22 +56,41 @@ public class World extends JPanel{
 	public void paint(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
-
-		for ( int i = 0 ; i < sizex ; i++ ) //affichage de l'arriere plan
-			for ( int j = 0 ; j < sizey ; j++ )
-			{				
-				g2.drawImage(waterSprite,32*i,32*j,32,32, frame);					
-			}
+		m.affichage(g2,frame);
 
 		for ( Agent a : agent ){ //affichage des agents
+			//tableaucourant[a.getX()][a.getY()]=10;//numero 10 pour les agents 
 			g2.drawImage(a.getImage(), 32*a.getX(),32*a.getY(),32,32,frame);
-			a.step();
-			if (a.getLife()<= 0){
-				agent.remove(a);
-			}
-		} 
-		
+		}
 
+
+		for ( int i = 0 ; i < sizex ; i++ ) //Mise a jour des tableaux
+			for ( int j = 0 ; j < sizey ; j++ )				
+				world[i][j]=tableaucourant[i][j];
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {}
+	}
+
+	public void step(){
+		for (int i=0; i<agent.size();i++){
+			agent.get(i).step();
+			agent.get(i).move();
+			if(agent.get(i).alive==false){
+				agent.remove(agent.get(i));
+			}
+		}
+	}
+
+	public void majTab(int x, int y, int valeur){
+		tableaucourant[x][y]=valeur;
+	}
+	//Accesseur 
+	public Map getMap(){
+		return m;
+	}
+	public ArrayList<Agent> getAgent(){
+		return agent;
 	}
 	public int getSizex(){
 		return sizex;
@@ -82,9 +99,9 @@ public class World extends JPanel{
 	public int getSizey(){
 		return sizey;
 	}
-
-	public Humain getHumain(){
-		return homme;
+	public int getTableaucourant(int x, int y){
+		return tableaucourant[x][y];
 	}
+	
 	
 }

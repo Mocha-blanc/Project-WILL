@@ -17,32 +17,50 @@ public abstract class Agent {
 	protected int x; //posx
 	protected int y; //posy
 
-	protected int wx;// dimention du monde posx
-	protected int wy;// dimention du monde posy
+	protected Map m;
 
 	
 	protected boolean alive;
+	protected int life;
+	protected int direction;
 
 	public static final int NORD = 0;
 	public static final int EST = 1;
 	public static final int SUD = 2;
 	public static final int OUEST = 3;
 
-	public Agent(int x, int y, int wx,int wy){
-		this.x=x;
-		this.y=y;
-		this.wx=wx;
-		this.wy=wy;
+	public Agent(int life, Map m){
+		this.life=life;
+		this.m=m;
+		alive=true;
+		//w.majTab(x,y,10);
 	}
-
+	/*public Agent(int life, World w){
+		int x1,y1;
+		
+		x1=(int)(Math.random()*w.getSizex());
+		y1=(int)(Math.random()*w.getSizex());
+		
+		x=x1;
+		y=y1;
+		this.life=life;
+		this.w=w;
+		alive=true;
+		//w.majTab(x,y,10);
+	}*/
 	public int getX(){
 		return x;
 	}
 	public int getY(){
 		return y;
 	}
-
-	public abstract int getLife();
+	public int getLife(){
+		return life;
+	}
+	/*public World getWorld(){
+		return w;
+	}*/
+	public abstract void move();
 	public abstract void step();
 	public abstract Image getImage();
 	

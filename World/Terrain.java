@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,42 +9,36 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-public abstract class Object{
+import java.util.ArrayList;
+
+public abstract class Terrain {
 	protected int x;
 	protected int y;
 	protected int type;
-	protected World w;
-	protected Image sprite;
 
+	protected Image sprite;
 
 	public static int WATER=0; //Eau
 	public static int TREE=1; //Arbre
+	public static int SAND=2; //Sable
 
 
-
-
-
-	public Object(int x,int y,World w){
+	public Terrain(int x,int y){
 		this.x=x;
 		this.y=y;
-		this.w=w;
-	}
-	public Object(World w){
-		x=(int)(Math.random()*w.getSizex());
-		y=(int)(Math.random()*w.getSizex());
-		this.w=w;
 	}
 
 
-	public int getX(){
-		return x;
-	}
-	public int getY(){
-		return y;
-	}
+
+
+
+
+	//Accesseur 
 	public int getType(){
 		return type;
 	}
 
-	public abstract Image getImage();
+	//abstract
+	public abstract void affichage(Graphics2D g2, JFrame frame);
+
 }
