@@ -48,6 +48,7 @@ public class Tree extends Terrain{
 		}
 	}
 
+	public void step(){}
 	public Image getImage(){
 		return sprite;
 	}

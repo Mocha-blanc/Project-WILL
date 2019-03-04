@@ -36,14 +36,13 @@ public class Map{
 			for (int j=0; j<y ; j++)
 				affichage[i][j].affichage(g2, frame);
 	}
-	/*public void step(){
+	public void step(){
 		for (int i=0; i<x ; i++)
 			for (int j=0; j<y ; j++)
-				if(affichage[i][j].getType()==Terrain.SAND && affichage[i][j].getGrass()==false)
+				if(affichage[i][j].getType()==Terrain.SAND )
 					if(Main.BGRASS>Math.random())
-						affichage[i][j].majGrass(true);
-
-	}*/
+						affichage[i][j].step();
+	}
 
 	//Accesseur
 	public Terrain getAffichage(int x,int y){

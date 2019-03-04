@@ -62,9 +62,7 @@ public class Humain extends Agent{
         if ( direction == 3)// ouest
          	x1 = (x1 - 1) ;
 		//System.out.println(m.getAffichage());
-		System.out.println(Terrain.WATER);
-		System.out.println(m.getAffichage(x1,y1).getType());
-
+        
         if (m.getAffichage(x1,y1).getType()==Terrain.SAND){
         	x=x1;
         	y=y1;

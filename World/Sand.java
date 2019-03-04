@@ -19,12 +19,9 @@ public class Sand extends Terrain{
 	private Image sprite2;
 	public Sand(int x, int y,String image,String image1){
 		super(x,y);
-		if(Main.PGRASS>Math.random()){
-			grass=true;
-		}else{
 			grass=false;
 
-		}
+		
 		type=Terrain.SAND;
 		try{
 			sprite = ImageIO.read(new File(image));
@@ -39,12 +36,13 @@ public class Sand extends Terrain{
 
 
 	public void affichage(Graphics2D g2, JFrame frame){
-		g2.drawImage(sprite, 32*x, 32*y, 32, 32, frame);
+		g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 		if (grass==true) {
-			g2.drawImage(sprite1, 32*x, 32*y, 32, 32, frame);
-		
+			g2.drawImage(sprite1, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 		}
 	}
-
+	public void step(){
+		grass=true;
+	}
 	
 }

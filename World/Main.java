@@ -31,6 +31,7 @@ public class Main{
 
 		int delai=500;
 		w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
+		w.addAgent(new Humain(100000, w.getMap(),"human.png"));
 		while (true){
 			System.out.println("Pascal");
 			//if (probabilite>Math.random())

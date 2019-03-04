@@ -17,6 +17,7 @@ public class World extends JPanel{
 
 	private JFrame frame;
 
+	public static int spriteLength=24;
 	private Image waterSprite;
 	private Image grassSprite;
 	private Image treeSprite;
@@ -43,7 +44,7 @@ public class World extends JPanel{
 
 		frame = new JFrame("World of Sprite");
 		frame.add(this);
-		frame.setSize(32*sizex,32*sizey);
+		frame.setSize(spriteLength*sizex,spriteLength*sizey);
 		frame.setVisible(true);
 	}
 
@@ -57,10 +58,12 @@ public class World extends JPanel{
 	{
 		Graphics2D g2 = (Graphics2D)g;
 		m.affichage(g2,frame);
+		//m.step();
+
 
 		for ( Agent a : agent ){ //affichage des agents
 			//tableaucourant[a.getX()][a.getY()]=10;//numero 10 pour les agents 
-			g2.drawImage(a.getImage(), 32*a.getX(),32*a.getY(),32,32,frame);
+			g2.drawImage(a.getImage(), spriteLength*a.getX(),spriteLength*a.getY(),spriteLength,spriteLength,frame);
 		}
 
 

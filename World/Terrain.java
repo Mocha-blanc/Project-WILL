@@ -40,5 +40,7 @@ public abstract class Terrain {
 
 	//abstract
 	public abstract void affichage(Graphics2D g2, JFrame frame);
+	public abstract void step();
+
 
 }

@@ -28,8 +28,10 @@ public class Water extends Terrain{
 	}
 
 	public void affichage(Graphics2D g2, JFrame frame){
-		g2.drawImage(sprite, 32*x, 32*y, 32, 32, frame);
+		g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 	}
 
-	
+	public void step(){
+
+	}	
 }
