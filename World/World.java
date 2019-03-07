@@ -18,9 +18,6 @@ public class World extends JPanel{
 	private JFrame frame;
 
 	public static int spriteLength=24;
-	private Image waterSprite;
-	private Image grassSprite;
-	private Image treeSprite;
 
 	private int world[][];
 	private int tableaucourant[][];
@@ -58,24 +55,18 @@ public class World extends JPanel{
 	{
 		Graphics2D g2 = (Graphics2D)g;
 		m.affichage(g2,frame);
-		//m.step();
 
 
-		for ( Agent a : agent ){ //affichage des agents
-			//tableaucourant[a.getX()][a.getY()]=10;//numero 10 pour les agents 
+		for ( Agent a : agent ){ //affichage des agents 
 			g2.drawImage(a.getImage(), spriteLength*a.getX(),spriteLength*a.getY(),spriteLength,spriteLength,frame);
 		}
-
-
-		for ( int i = 0 ; i < sizex ; i++ ) //Mise a jour des tableaux
-			for ( int j = 0 ; j < sizey ; j++ )				
-				world[i][j]=tableaucourant[i][j];
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {}
 	}
 
 	public void step(){
+		m.step();
 		for (int i=0; i<agent.size();i++){
 			agent.get(i).step();
 			agent.get(i).move();
@@ -106,5 +97,24 @@ public class World extends JPanel{
 		return tableaucourant[x][y];
 	}
 	
-	
+	public static void main(String[] args) {
+		World w = new World(25,25);
+		double probabilite = 0.0;
+
+
+
+		int delai=500;
+		w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
+		w.addAgent(new Humain(100000, w.getMap(),"human.png"));
+		while (true){
+			System.out.println("Pascal");
+			try {
+				Thread.sleep(delai);
+			}catch (InterruptedException e) {}
+			
+			
+			w.step();
+			w.repaint();
+		}
+	}
 }

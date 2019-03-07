@@ -16,16 +16,17 @@ public class Sand extends Terrain{
 
 
 	private Image sprite1;
-	private Image sprite2;
-	public Sand(int x, int y,String image,String image1){
+
+	public Sand(int x, int y){
 		super(x,y);
-			grass=false;
+		grass=false;
 
 		
-		type=Terrain.SAND;
+		type=Map.SAND;
 		try{
-			sprite = ImageIO.read(new File(image));
-			sprite1 = ImageIO.read(new File(image1));
+			sprite = ImageIO.read(new File("sand.png"));
+			sprite1 = ImageIO.read(new File("grass.png"));
+
 		}
 		catch(Exception e)
 		{
@@ -34,15 +35,19 @@ public class Sand extends Terrain{
 		}
 	}
 
-
 	public void affichage(Graphics2D g2, JFrame frame){
 		g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 		if (grass==true) {
 			g2.drawImage(sprite1, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+
 		}
 	}
+
+
 	public void step(){
-		grass=true;
+		if(Map.BGRASS>Math.random()){
+			grass=true;
+		}
 	}
 	
 }

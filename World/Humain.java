@@ -14,17 +14,6 @@ import javax.swing.JPanel;
 public class Humain extends Agent{
 	private Image sprite;
 
-	/*public Humain(int x,int y, int life, World w,String image){
-		super(x,y,life,w);
-		try{
-			sprite = ImageIO.read(new File(image));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			System.exit(-1);
-		}
-	}*/
 	public Humain(int life, Map m, String image){
 		super(life,m);
 		do{
@@ -61,12 +50,11 @@ public class Humain extends Agent{
          	y1 = (y1 + 1) ;
         if ( direction == 3)// ouest
          	x1 = (x1 - 1) ;
-		//System.out.println(m.getAffichage());
-        
+
+
         if (m.getAffichage(x1,y1).getType()==Terrain.SAND){
         	x=x1;
         	y=y1;
-        	//w.majTab(x,y,10);
         }
         
 	}

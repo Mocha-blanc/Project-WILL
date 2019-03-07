@@ -28,21 +28,9 @@ public abstract class Agent {
 		this.life=life;
 		this.m=m;
 		alive=true;
-		//w.majTab(x,y,10);
+		
 	}
-	/*public Agent(int life, World w){
-		int x1,y1;
-		
-		x1=(int)(Math.random()*w.getSizex());
-		y1=(int)(Math.random()*w.getSizex());
-		
-		x=x1;
-		y=y1;
-		this.life=life;
-		this.w=w;
-		alive=true;
-		//w.majTab(x,y,10);
-	}*/
+	
 	public int getX(){
 		return x;
 	}

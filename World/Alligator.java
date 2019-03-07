@@ -59,7 +59,6 @@ public class Alligator extends Agent{
         if (m.getAffichage(x1,y1).getType()==Terrain.WATER){
         	x=x1;
         	y=y1;
-        	//w.majTab(x,y,10);
         }
         
 	}

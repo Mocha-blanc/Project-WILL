@@ -19,20 +19,10 @@ public abstract class Object{
 
 	public static int WATER=0; //Eau
 	public static int TREE=1; //Arbre
-
-
-
-
-
-	public Object(int x,int y,World w){
+	
+	public Object(int x,int y){
 		this.x=x;
 		this.y=y;
-		this.w=w;
-	}
-	public Object(World w){
-		x=(int)(Math.random()*w.getSizex());
-		y=(int)(Math.random()*w.getSizex());
-		this.w=w;
 	}
 
 

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 
 public class Water extends Terrain{
-	public Water(int x, int y,String image){
+	public Water(int x, int y){
 		super(x,y);
-		type=Terrain.WATER;
+		type=Map.WATER;
 		try{
-			sprite = ImageIO.read(new File(image));
+			sprite = ImageIO.read(new File("water.png"));
 		}
 		catch(Exception e)
 		{
@@ -31,7 +31,5 @@ public class Water extends Terrain{
 		g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 	}
 
-	public void step(){
-
-	}	
+	
 }
