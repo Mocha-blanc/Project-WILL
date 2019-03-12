@@ -42,13 +42,42 @@ public class Humain extends Agent{
 		}
 	}
 	public void step(){
-		
+			
 		direction=(int)(Math.random()*4);
 		if (life<= 0){
 			alive=false;
 		}
         life=life-1;
 	}
+	public void affichage(Graphics2D g2, JFrame frame, int i){
+		if(direction==NORD){
+			if(i%5==0 || move==false){
+				g2.drawImage(a.getImage(), spriteLength*a.getX(),spriteLength*a.getY(),spriteLength,spriteLength,frame);
+			}else if(i%5==1){
+				g2.drawImage(a.getImage(), spriteLength*a.getX(),spriteLength*a.getY(),spriteLength,spriteLength,frame);
+			}else if(i%5==2){
+			}else if(i%5==3){
+			}
+		}else if(direction==EST ){
+			if(i%5==0 || move==false){
+			}else if(i%5==1){
+			}else if(i%5==2){
+			}else if(i%5==3){
+			}
+		}else if(direction==SUD){
+			if(i%5==0 || move==false){
+			}else if(i%5==1){
+			}else if(i%5==2){
+			}else if(i%5==3){
+			}
+		}else{
+			if(i%5==0 || move==false){
+			}else if(i%5==1){
+			}else if(i%5==2){
+			}else if(i%5==3){
+			}
+		}
+		
 	public void move(){
 		int x1=x;
 		int y1=y;
