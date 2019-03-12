@@ -23,6 +23,7 @@ public abstract class Agent {
 	protected boolean alive;
 	protected int life;
 	protected int direction;
+	protected boolean move;
 
 	public Agent(int life, Map m){
 		this.life=life;
@@ -55,6 +56,7 @@ public abstract class Agent {
 	/*public World getWorld(){
 		return w;
 	}*/
+	public abstract void affichage(Graphics2D g2, JFrame frame, int i);
 	public abstract void move();
 	public abstract void step();
 	public abstract Image getImage();
