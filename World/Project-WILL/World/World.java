@@ -29,17 +29,18 @@ public class World extends JPanel{
 
 	private int sizex;
 	private int sizey;
+	private int iteration;
 
 	public World(int sizex,int sizey){ // initialisation du monde 
 		this.sizex=sizex;
 		this.sizey=sizey;
-
+		iteration=0;
 		world=new int[this.sizex][this.sizey];
 		tableaucourant=new int [this.sizex][this.sizey];
 		
 		m=new Map(sizex,sizey);
 		agent=new ArrayList<Agent>();
-
+		
 
 
 		frame = new JFrame("World of Sprite");
@@ -76,13 +77,16 @@ public class World extends JPanel{
 	}
 
 	public void step(){
-		for (int i=0; i<agent.size();i++){
-			agent.get(i).step();
-			agent.get(i).move();
-			if(agent.get(i).alive==false){
-				agent.remove(agent.get(i));
+		if(i%5==0)
+			for (int i=0; i<agent.size();i++){
+				agent.get(i).step();
+				agent.get(i).move();
+				if(agent.get(i).alive==false){
+					agent.remove(agent.get(i));
+				}
 			}
-		}
+			m.step();
+		i++;
 	}
 
 	public void majTab(int x, int y, int valeur){
