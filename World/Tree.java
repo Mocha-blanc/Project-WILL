@@ -13,12 +13,14 @@ public class Tree {
 	public final static int LIFE=10;
 
 	private int x,y;
-	private int type;
+
 	private boolean burn;
 	private boolean alive;
 	private int life;
 	private Image sprite;
+	private Image spriteCoal;
 	private Image spriteFire;
+
 
 	public Tree(int x,int y){
 		this.x=x;
@@ -26,11 +28,12 @@ public class Tree {
 		burn=false;
 		alive=false;
 		life=0;
-		type=Map.TREE;
 
 		try{
 			sprite = ImageIO.read(new File("tree.png"));
+			spriteCoal = ImageIO.read(new File("coaltree.png"));
 			spriteFire = ImageIO.read(new File("fire.png"));
+
 		}
 		catch(Exception e)
 		{
@@ -48,7 +51,11 @@ public class Tree {
 	}
 	public void affichage(Graphics2D g2, JFrame frame){
 		if(alive==true && life >0){
-			g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+			if(life==1){
+				g2.drawImage(spriteCoal, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+			}else{
+				g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+			}
 			if (burn==true) //Arbre en feu
 				g2.drawImage(spriteFire, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
 		}

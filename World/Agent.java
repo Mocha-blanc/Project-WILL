@@ -23,18 +23,23 @@ public abstract class Agent {
 	protected boolean alive;
 	protected int life;
 	protected int direction;
+	protected String name;
 
 	public static final int NORD=0;
 	public static final int EST=1;
 	public static final int SUD=2;
 	public static final int WEST=3;
 
-	public Agent(int life, Map m){
+	public Agent(int life, Map m,String name){
 		this.life=life;
 		this.m=m;
+		this.name=name;
 		move=false;
 		alive=true;
 		
+	}
+	public String getName(){
+		return name;
 	}
 	public boolean isMove(){
 		return move;

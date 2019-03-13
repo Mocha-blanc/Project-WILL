@@ -18,8 +18,12 @@ public class World extends JPanel{
 	private JFrame frame;
 
 	//Valeur mofiable
-	public static final int spriteLength=24;	//Taille des case
+	public static final int spriteLength=30;	//Taille des case
 	public static final int delai=100;	//Delai d'affichage
+
+
+
+	
 
 	private ArrayList<Agent> agent;
 	private Map m;
@@ -32,7 +36,7 @@ public class World extends JPanel{
 	public World(int sizex,int sizey){ // initialisation du monde 
 		this.sizex=sizex;
 		this.sizey=sizey;
-		iteration=4;
+		iteration=0;
 
 		m=new Map(sizex,sizey);
 		agent=new ArrayList<Agent>();
@@ -59,9 +63,8 @@ public class World extends JPanel{
 
 
 		for ( Agent a : agent ){ //affichage des agents 
-			image.affichage("goat",(iteration%5), a.getDirection(),g2, frame,a);
+			image.affichageAgent((iteration%5), g2, frame,a);
 		}
-		iteration++;
 	}
 
 	public void step(){
@@ -73,6 +76,7 @@ public class World extends JPanel{
 		}
 
 		for (int i=0;i<5;i++){
+			iteration=i;
 			repaint();
 			try {
 				Thread.sleep(delai);
@@ -112,18 +116,24 @@ public class World extends JPanel{
 		double probabilite = 0.0;
 
 		//w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
-		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+		w.addAgent(new Goat(100000, w.getMap()));
+
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+		w.addAgent(new Wolf(100000, w.getMap()));
+
 		int i=0;
 		String s="lol";
 		while (true){

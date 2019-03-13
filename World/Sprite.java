@@ -13,11 +13,20 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 
 public class Sprite {
+
 	private Image goatSprite[][];
+	private Image wolfSprite[][];
+
+	private Image sandSprite;
+	private Image waterSprite;
+
+	private Image grassSprite;
 
 	public Sprite(){
 		goatSprite=new Image[4][5];
+		wolfSprite=new Image[4][5];
 		try{
+			//GoatSprite
 			goatSprite[Agent.NORD][0] = ImageIO.read(new File("goat9.png"));
 			goatSprite[Agent.NORD][1] = ImageIO.read(new File("goat10.png"));
 			goatSprite[Agent.NORD][2] = ImageIO.read(new File("goat11.png"));
@@ -43,6 +52,41 @@ public class Sprite {
 			goatSprite[Agent.WEST][3] = ImageIO.read(new File("goat16.png"));
 			goatSprite[Agent.WEST][4] = ImageIO.read(new File("goat13.png"));
 
+			//WolfSprite
+			wolfSprite[Agent.NORD][0] = ImageIO.read(new File("wolf9.png"));
+			wolfSprite[Agent.NORD][1] = ImageIO.read(new File("wolf10.png"));
+			wolfSprite[Agent.NORD][2] = ImageIO.read(new File("wolf11.png"));
+			wolfSprite[Agent.NORD][3] = ImageIO.read(new File("wolf12.png"));
+			wolfSprite[Agent.NORD][4] = ImageIO.read(new File("wolf9.png"));
+
+			wolfSprite[Agent.EST][0] = ImageIO.read(new File("wolf13.png"));
+			wolfSprite[Agent.EST][1] = ImageIO.read(new File("wolf14.png"));
+			wolfSprite[Agent.EST][2] = ImageIO.read(new File("wolf15.png"));
+			wolfSprite[Agent.EST][3] = ImageIO.read(new File("wolf16.png"));
+			wolfSprite[Agent.EST][4] = ImageIO.read(new File("wolf13.png"));
+
+			wolfSprite[Agent.SUD][0] = ImageIO.read(new File("wolf1.png"));
+			wolfSprite[Agent.SUD][1] = ImageIO.read(new File("wolf2.png"));
+			wolfSprite[Agent.SUD][2] = ImageIO.read(new File("wolf3.png"));
+			wolfSprite[Agent.SUD][3] = ImageIO.read(new File("wolf4.png"));
+			wolfSprite[Agent.SUD][4] = ImageIO.read(new File("wolf1.png"));
+
+			wolfSprite[Agent.WEST][0] = ImageIO.read(new File("wolf5.png"));
+			wolfSprite[Agent.WEST][1] = ImageIO.read(new File("wolf6.png"));
+			wolfSprite[Agent.WEST][2] = ImageIO.read(new File("wolf7.png"));
+			wolfSprite[Agent.WEST][3] = ImageIO.read(new File("wolf8.png"));
+			wolfSprite[Agent.WEST][4] = ImageIO.read(new File("wolf5.png"));
+
+			//Terrain
+			waterSprite=ImageIO.read(new File("water.png"));
+			sandSprite=ImageIO.read(new File("sand.png"));
+			
+			//Object
+			grassSprite=ImageIO.read(new File("grass.png"));
+
+
+
+
 
 		}
 		catch(Exception e)
@@ -50,21 +94,47 @@ public class Sprite {
 			e.printStackTrace();
 		}	
 	}
-	public void affichage(String s,int i,int direction,Graphics2D g2, JFrame frame,Agent a){
-		if(s.equals("goat")){
+	public void affichageAgent(int i,Graphics2D g2, JFrame frame,Agent a){
+		if(a.getName().equals("goat")){
 			if(a.isMove()==true){
-				if(Agent.NORD==direction)
-					g2.drawImage(goatSprite[direction][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()-(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
-				if(Agent.EST==direction)
-					g2.drawImage(goatSprite[direction][i], World.spriteLength*a.getX()+(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
-				if(Agent.SUD==direction)
-					g2.drawImage(goatSprite[direction][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()+(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
-				if(Agent.WEST==direction)
-					g2.drawImage(goatSprite[direction][i], World.spriteLength*a.getX()-(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+				if(Agent.NORD==a.getDirection())
+					g2.drawImage(goatSprite[a.getDirection()][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()-(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
+				if(Agent.EST==a.getDirection())
+					g2.drawImage(goatSprite[a.getDirection()][i], World.spriteLength*a.getX()+(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+				if(Agent.SUD==a.getDirection())
+					g2.drawImage(goatSprite[a.getDirection()][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()+(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
+				if(Agent.WEST==a.getDirection())
+					g2.drawImage(goatSprite[a.getDirection()][i], World.spriteLength*a.getX()-(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
 			}else {
-				g2.drawImage(goatSprite[direction][0], World.spriteLength*a.getX(),World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+				g2.drawImage(goatSprite[a.getDirection()][0], World.spriteLength*a.getX(),World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
 			}
 		}
+		if(a.getName().equals("wolf")){
+			if(a.isMove()==true){
+				if(Agent.NORD==a.getDirection())
+					g2.drawImage(wolfSprite[a.getDirection()][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()-(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
+				if(Agent.EST==a.getDirection())
+					g2.drawImage(wolfSprite[a.getDirection()][i], World.spriteLength*a.getX()+(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+				if(Agent.SUD==a.getDirection())
+					g2.drawImage(wolfSprite[a.getDirection()][i], World.spriteLength*a.getX(),World.spriteLength*a.getY()+(i*World.spriteLength)/4,World.spriteLength,World.spriteLength,frame);
+				if(Agent.WEST==a.getDirection())
+					g2.drawImage(wolfSprite[a.getDirection()][i], World.spriteLength*a.getX()-(i*World.spriteLength)/4,World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+			}else {
+				g2.drawImage(wolfSprite[a.getDirection()][0], World.spriteLength*a.getX(),World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
+			}
+		}
+	}
+
+	public void affichageTerrain(Graphics2D g2, JFrame frame, int x,int y, int type){
+		if (Map.WATER==type)
+			g2.drawImage(waterSprite, World.spriteLength*x,World.spriteLength*y,World.spriteLength,World.spriteLength,frame);
+		if (Map.SAND==type)
+			g2.drawImage(sandSprite, World.spriteLength*x,World.spriteLength*y,World.spriteLength,World.spriteLength,frame);
+		
+	}
+	public void affichageObject(Graphics2D g2, JFrame frame, int x,int y, int type){
+		if(Map.GRASS==type)
+			g2.drawImage(grassSprite, World.spriteLength*x,World.spriteLength*y,World.spriteLength,World.spriteLength,frame);
 		
 	}
 

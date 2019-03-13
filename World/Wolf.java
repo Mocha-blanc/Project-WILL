@@ -1,4 +1,5 @@
 
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,18 +11,15 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Alligator extends Agent{
-
-
-	public Alligator(int life, Map m){
-		super(life,m,"alligator");
+public class Wolf extends Agent{
+	public Wolf(int life, Map m){
+		super(life,m,"wolf");
 		do{
 			x=(int)(Math.random()*m.getX());
 			y=(int)(Math.random()*m.getY());
-		}while(m.getTerrain(x,y)!=Map.WATER);
+		}while(m.getTerrain(x,y)==Map.WATER);
 		life=life;
 	}
-
 	public void step(){
 		
 		direction=(int)(Math.random()*4);
@@ -38,7 +36,7 @@ public class Alligator extends Agent{
          	x1 = (x1 - 1) ;
 
 
-        if (m.getTerrain(x1,y1)==Map.WATER){
+        if (m.getTerrain(x1,y1)==Map.SAND && m.getTree(x1,y1).getLife()==0){
         	move=true;
         }else{
         	move=false;
@@ -49,8 +47,11 @@ public class Alligator extends Agent{
 		}
         life=life-1;
 	}
-
-
+	public void eat(){
+		if(m.getObject(x,y)==Map.GRASS){
+			m.setObject(x,y,Map.VIDE);
+		}					
+	}
 	public void move(){
 		if (move==true){
 			if ( direction == NORD) // nord
@@ -62,12 +63,9 @@ public class Alligator extends Agent{
         	if ( direction == WEST)// ouest
          		x = (x - 1) ;
          }
+         eat();
     }
-
-
-	//Accesseur 
-
-	public int getDirection(){
+    public int getDirection(){
 		return direction;
 	}
 }
