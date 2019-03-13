@@ -17,25 +17,26 @@ public class World extends JPanel{
 
 	private JFrame frame;
 
-	public static int spriteLength=24;
+	//Valeur mofiable
+	public static final int spriteLength=24;	//Taille des case
+	public static final int delai=100;	//Delai d'affichage
 
-	private int world[][];
-	private int tableaucourant[][];
 	private ArrayList<Agent> agent;
 	private Map m;
+	private Sprite image;
 
 	private int sizex;
 	private int sizey;
+	private int iteration;
 
 	public World(int sizex,int sizey){ // initialisation du monde 
 		this.sizex=sizex;
 		this.sizey=sizey;
+		iteration=4;
 
-		world=new int[this.sizex][this.sizey];
-		tableaucourant=new int [this.sizex][this.sizey];
-		
 		m=new Map(sizex,sizey);
 		agent=new ArrayList<Agent>();
+		image=new Sprite();
 
 
 
@@ -43,10 +44,10 @@ public class World extends JPanel{
 		frame.add(this);
 		frame.setSize(spriteLength*sizex,spriteLength*sizey);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void addAgent(Agent a){
-		
+	public void addAgent(Agent a){	
 		agent.add(a);
 	}
 
@@ -58,27 +59,39 @@ public class World extends JPanel{
 
 
 		for ( Agent a : agent ){ //affichage des agents 
-			g2.drawImage(a.getImage(), spriteLength*a.getX(),spriteLength*a.getY(),spriteLength,spriteLength,frame);
+			image.affichage("goat",(iteration%5), a.getDirection(),g2, frame,a);
 		}
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {}
+		iteration++;
 	}
 
 	public void step(){
 		m.step();
+
 		for (int i=0; i<agent.size();i++){
 			agent.get(i).step();
+			removeAgent();
+		}
+
+		for (int i=0;i<5;i++){
+			repaint();
+			try {
+				Thread.sleep(delai);
+			} catch (InterruptedException e) {}
+		}
+		for (int i=0; i<agent.size();i++){
 			agent.get(i).move();
+		}
+		
+	}
+
+	public void removeAgent(){
+		for (int i=0; i<agent.size();i++){
 			if(agent.get(i).alive==false){
 				agent.remove(agent.get(i));
 			}
 		}
 	}
-
-	public void majTab(int x, int y, int valeur){
-		tableaucourant[x][y]=valeur;
-	}
+	
 	//Accesseur 
 	public Map getMap(){
 		return m;
@@ -93,28 +106,31 @@ public class World extends JPanel{
 	public int getSizey(){
 		return sizey;
 	}
-	public int getTableaucourant(int x, int y){
-		return tableaucourant[x][y];
-	}
 	
 	public static void main(String[] args) {
 		World w = new World(25,25);
 		double probabilite = 0.0;
 
-
-
-		int delai=500;
-		w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
-		w.addAgent(new Humain(100000, w.getMap(),"human.png"));
+		//w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		w.addAgent(new Humain(100000, w.getMap()));
+		int i=0;
+		String s="lol";
 		while (true){
-			System.out.println("Pascal");
-			try {
-				Thread.sleep(delai);
-			}catch (InterruptedException e) {}
-			
-			
+			System.out.println(i);
 			w.step();
-			w.repaint();
+			i++;
+			System.out.println(s.equals("lol"));
 		}
 	}
 }

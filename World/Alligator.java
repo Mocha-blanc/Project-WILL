@@ -66,7 +66,7 @@ public class Alligator extends Agent{
 
 	//Accesseur 
 
-	public Image getImage(){
-		return sprite;
+	public int getDirection(){
+		return direction;
 	}
 }

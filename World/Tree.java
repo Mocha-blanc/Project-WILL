@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Tree {
+	public final static int LIFE=10;
+
 	private int x,y;
 	private int type;
 	private boolean burn;
@@ -21,10 +23,9 @@ public class Tree {
 	public Tree(int x,int y){
 		this.x=x;
 		this.y=y;
-
 		burn=false;
-		alive=true;
-
+		alive=false;
+		life=0;
 		type=Map.TREE;
 
 		try{
@@ -37,40 +38,63 @@ public class Tree {
 			System.exit(-1);
 		}
 	}
+	public static Tree clonage(Tree t){
+		Tree clone = new Tree(t.getX(),t.getY());
+		clone.setLife(t.getLife());
+		clone.setAlive(t.isAlive());
+		clone.setBurn(t.isBurn());
+		return clone;
 
+	}
 	public void affichage(Graphics2D g2, JFrame frame){
-		g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
-		if (burn) //Arbre en feu
-			g2.drawImage(spriteFire, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+		if(alive==true && life >0){
+			g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+			if (burn==true) //Arbre en feu
+				g2.drawImage(spriteFire, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
+		}
 	}
 
 	public void step(){
-		if(life<=0)
+		if(life<=0){
 			alive=false;
-		if(burn==true)
+			burn=false;
+		}
+		if(burn==true){
 			life--;
+		}
+	}
+
+	public void burn(){
+		burn=true;
+	}
+	public void alive(){
+		life=LIFE;
+		alive=true;
+	}
+	//Set
+	public void setAlive(boolean a){
+		alive=a;
+	}
+	public void setBurn(boolean b){
+		burn=b;
+	}
+	public void setLife(int l){
+		life=l;
 	}
 	//Accesseur 
+
 	public boolean isAlive(){
 		return alive;
 	}
-	public boolean getTrue(){
-		return tree=true;
+	public boolean isBurn(){
+		return burn;
 	}
-
 	public int getX(){
 		return x;
 	}
 	public int getY(){
 		return y;
 	}
-	public boolean burn(){
-		return burn=true;
-	}
-	public boolean getTree(){
-		return tree;
-	}
-	public void step(){}
 	public Image getImage(){
 		return sprite;
 	}

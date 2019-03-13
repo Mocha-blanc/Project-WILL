@@ -14,12 +14,13 @@ public class Map{
 
 	//Probabilite de réaparition 
 	public final static double BGRASS=0.1;  //Herbre
-	public final static double BTREE=0.2; //Arbre
+	public final static double BTREE=0.01; //Arbre
 
 	public final static double BFEU=0.01; //Feu
+	public final static double PFEU=0.01;
 
 
-
+	
 	private int x;
 	private int y;
 
@@ -28,21 +29,25 @@ public class Map{
 	public static int SAND=2; //Sable
 	
 	private Terrain affichage[][];
+	private int tab[][];
 	private int arbre[][];
-	private ArrayList<Tree> tree;
+	private Tree tree[][];
+	private Tree tabTree[][];
 	public Map(int x, int y){
 		this.x=x;
 		this.y=y;
 
 		affichage = new Terrain[x][y];
+		tab = new int[x][y];
 		arbre=new int[x][y];
-		tree=new ArrayList<Tree>();
+		tree=new Tree[x][y];
+		tabTree=new Tree[x][y];
 		for (int i=0; i<x ;i++)
 			for (int j=0; j<y ; j++){
 				affichage[i][j]= new Water(i,j);
-				arbre[i][j]=0;
+				tree[i][j]=new Tree(i,j);
+				tabTree[i][j]=tree[i][j];
 			}
-
 		for (int i=3; i<x-3; i++)
 			for (int j=3; j<y-3; j++){
 				affichage[i][j]=new Sand(i,j);
@@ -53,45 +58,67 @@ public class Map{
 		for (int i=0; i<x ; i++)
 			for (int j=0; j<y ; j++){
 				affichage[i][j].affichage(g2, frame);
+				tree[i][j].affichage(g2,frame);
 			}
-		for (Tree a : tree){
-			a.affichage(g2, frame);
-		}
 	}
 
 	public void step(){
-		for (int i=0; i<tree.size();i++){
-			tree.get(i).step();
+		//Remove des arbres
 
-			if(tree.get(i).isAlive()==false){
-				arbre[a.get()][a.getY()]=0;
-				tree.remove(tree.get(i));
+		for (int i=0; i<x;i++){
+			for(int j=0; j<y;j++){
+				tree[i][j].step();	
 			}
 		}
-		for (Tree a : tree){
-			if(BFEU>Math.random())
-				a.burn();
-			if(a.isAlive()==false){
-
-			}
-		}
+		//Progation du feu
 		for (int i=0; i<x ; i++)
 			for (int j=0; j<y ; j++)
-				if(affichage[i][j].getType()==Terrain.SAND ){
-					if(BGRASS>Math.random())
+				if(affichage[i][j].getType()==Terrain.SAND )
+				{
+					if(BGRASS>Math.random()) 	
 						((Sand)affichage[i][j]).step();
-
-					if(BTREE>Math.random() && arbre[i][j]==0)
-						tree.add(new Tree(i,j));
-						arbre[i][j]=1;
+					if(tree[i][j].isAlive()==true && tree[i][j].isBurn()==false){//Prend feu a proximiter
+						if (BFEU>Math.random()) {
+							tabTree[i][j].burn();
+						}else if(tree[i+1][j].isBurn()==true){
+							tabTree[i][j].burn();
+						}else if(tree[i-1][j].isBurn()==true ){
+							tabTree[i][j].burn();
+						}else if(tree[i][j+1].isBurn()==true){
+							tabTree[i][j].burn();
+						}else if(tree[i][j-1].isBurn()==true ){
+							tabTree[i][j].burn();
+						}else{
+							tabTree[i][j]=tree[i][j];
+						}
+					}else if(tree[i][j].isAlive()==false){
+						if(BTREE>Math.random()){
+							tabTree[i][j].alive(); //L'arbre est initialiser
+						}
+					}else {
+						tabTree[i][j]=tree[i][j];
+					}
 				}
-		
+
+
+		//MAJ de l'automate
+		for (int i=0; i<x ; i++)
+			for (int j=0; j<y ; j++){
+				tree[i][j]= Tree.clonage(tabTree[i][j]);
+				
+			}
+
+
+
 	}
 
 
 	//Accesseur
 	public Terrain getAffichage(int x,int y){
 		return affichage[x][y];
+	}
+	public Tree getTree(int x,int y){
+		return tree[x][y];
 	}
 	public int getX(){
 		return x;

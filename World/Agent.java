@@ -19,18 +19,26 @@ public abstract class Agent {
 
 	protected Map m;
 
-	
+	protected boolean move;
 	protected boolean alive;
 	protected int life;
 	protected int direction;
 
+	public static final int NORD=0;
+	public static final int EST=1;
+	public static final int SUD=2;
+	public static final int WEST=3;
+
 	public Agent(int life, Map m){
 		this.life=life;
 		this.m=m;
+		move=false;
 		alive=true;
 		
 	}
-	
+	public boolean isMove(){
+		return move;
+	}
 	public int getX(){
 		return x;
 	}
@@ -45,6 +53,7 @@ public abstract class Agent {
 	}*/
 	public abstract void move();
 	public abstract void step();
-	public abstract Image getImage();
+	public abstract int getDirection();
+
 	
 }
