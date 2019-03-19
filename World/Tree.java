@@ -17,9 +17,6 @@ public class Tree {
 	private boolean burn;
 	private boolean alive;
 	private int life;
-	private Image sprite;
-	private Image spriteCoal;
-	private Image spriteFire;
 
 
 	public Tree(int x,int y){
@@ -29,46 +26,29 @@ public class Tree {
 		alive=false;
 		life=0;
 
-		try{
-			sprite = ImageIO.read(new File("tree.png"));
-			spriteCoal = ImageIO.read(new File("coaltree.png"));
-			spriteFire = ImageIO.read(new File("fire.png"));
-
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			System.exit(-1);
-		}
 	}
-	public static Tree clonage(Tree t){
-		Tree clone = new Tree(t.getX(),t.getY());
-		clone.setLife(t.getLife());
-		clone.setAlive(t.isAlive());
-		clone.setBurn(t.isBurn());
-		return clone;
-
-	}
-	public void affichage(Graphics2D g2, JFrame frame){
-		if(alive==true && life >0){
-			if(life==1){
-				g2.drawImage(spriteCoal, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
-			}else{
-				g2.drawImage(sprite, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
-			}
-			if (burn==true) //Arbre en feu
-				g2.drawImage(spriteFire, World.spriteLength*x, World.spriteLength*y, World.spriteLength, World.spriteLength, frame);
-		}
+	public Tree(Tree t){
+		this.x=t.x;
+		this.y=t.y;
+		this.burn=t.burn;
+		this.alive=t.alive;
+		this.life=t.life;
 	}
 
 	public void step(){
-		if(life<=0){
-			alive=false;
+		if(life <= 0){
 			burn=false;
+			alive=false;
+		
 		}
 		if(burn==true){
 			life--;
 		}
+	}
+	public void reset(){
+		burn=false;
+		alive=false;
+		life=0;
 	}
 
 	public void burn(){
@@ -77,6 +57,7 @@ public class Tree {
 	public void alive(){
 		life=LIFE;
 		alive=true;
+		burn=false;
 	}
 	//Set
 	public void setAlive(boolean a){
@@ -101,9 +82,6 @@ public class Tree {
 	}
 	public int getY(){
 		return y;
-	}
-	public Image getImage(){
-		return sprite;
 	}
 	public int getLife(){
 		return life;

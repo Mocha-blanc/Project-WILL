@@ -13,14 +13,18 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 
 public class Sprite {
-
+	//Agent
 	private Image goatSprite[][];
 	private Image wolfSprite[][];
-
+	//Terrain
 	private Image sandSprite;
 	private Image waterSprite;
-
+	//Object
 	private Image grassSprite;
+	//Tree
+	private Image treeSprite;
+	private Image coalSprite;
+	private Image fireSprite;
 
 	public Sprite(){
 		goatSprite=new Image[4][5];
@@ -78,11 +82,16 @@ public class Sprite {
 			wolfSprite[Agent.WEST][4] = ImageIO.read(new File("wolf5.png"));
 
 			//Terrain
-			waterSprite=ImageIO.read(new File("water.png"));
-			sandSprite=ImageIO.read(new File("sand.png"));
-			
+			waterSprite = ImageIO.read(new File("water.png"));
+			sandSprite = ImageIO.read(new File("sand.png"));
+
 			//Object
-			grassSprite=ImageIO.read(new File("grass.png"));
+			grassSprite = ImageIO.read(new File("grass.png"));
+			fireSprite = ImageIO.read(new File("fire.png"));
+
+			//Tree
+			treeSprite = ImageIO.read(new File("tree.png"));
+			coalSprite = ImageIO.read(new File("coaltree.png"));
 
 
 
@@ -94,7 +103,9 @@ public class Sprite {
 			e.printStackTrace();
 		}	
 	}
+	//Affichage pour les agents dans la class agent
 	public void affichageAgent(int i,Graphics2D g2, JFrame frame,Agent a){
+		
 		if(a.getName().equals("goat")){
 			if(a.isMove()==true){
 				if(Agent.NORD==a.getDirection())
@@ -109,6 +120,7 @@ public class Sprite {
 				g2.drawImage(goatSprite[a.getDirection()][0], World.spriteLength*a.getX(),World.spriteLength*a.getY(),World.spriteLength,World.spriteLength,frame);
 			}
 		}
+
 		if(a.getName().equals("wolf")){
 			if(a.isMove()==true){
 				if(Agent.NORD==a.getDirection())
@@ -124,7 +136,7 @@ public class Sprite {
 			}
 		}
 	}
-
+	//Afficahge pour les tableaux dans la class map
 	public void affichageTerrain(Graphics2D g2, JFrame frame, int x,int y, int type){
 		if (Map.WATER==type)
 			g2.drawImage(waterSprite, World.spriteLength*x,World.spriteLength*y,World.spriteLength,World.spriteLength,frame);
@@ -135,7 +147,18 @@ public class Sprite {
 	public void affichageObject(Graphics2D g2, JFrame frame, int x,int y, int type){
 		if(Map.GRASS==type)
 			g2.drawImage(grassSprite, World.spriteLength*x,World.spriteLength*y,World.spriteLength,World.spriteLength,frame);
-		
+	}
+
+	public void affichageTree(Graphics2D g2, JFrame frame, Tree t){
+		if(t.isAlive()==true && t.getLife() >0){
+			if(t.getLife()==1){
+				g2.drawImage(coalSprite, World.spriteLength*t.getX(), World.spriteLength*t.getY(), World.spriteLength, World.spriteLength, frame);
+			}else{
+				g2.drawImage(treeSprite, World.spriteLength*t.getX(), World.spriteLength*t.getY(), World.spriteLength, World.spriteLength, frame);
+			}
+			if (t.isBurn()==true) //Arbre en feu
+				g2.drawImage(fireSprite, World.spriteLength*t.getX(), World.spriteLength*t.getY(), World.spriteLength, World.spriteLength, frame);
+		}
 	}
 
 }

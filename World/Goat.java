@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 public class Goat extends Agent{
 	public Goat(int life, Map m){
@@ -20,7 +21,7 @@ public class Goat extends Agent{
 		}while(m.getTerrain(x,y)==Map.WATER);
 		life=life;
 	}
-	public void step(){
+	public void step(ArrayList<Agent> a){
 		
 		direction=(int)(Math.random()*4);
 		int x1=x;
@@ -51,6 +52,12 @@ public class Goat extends Agent{
 		if(m.getObject(x,y)==Map.GRASS){
 			m.setObject(x,y,Map.VIDE);
 		}
+	}
+	public void rayonDetection(String n, int i, ArrayList<Agent> a){
+		int iteration=1;
+		do{
+			direction=detection(x,y,n, i, a);
+		}while(direction==-1 || iteration<=i);
 	}
 	public void move(){
 		if (move==true){

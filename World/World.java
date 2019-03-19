@@ -18,12 +18,9 @@ public class World extends JPanel{
 	private JFrame frame;
 
 	//Valeur mofiable
-	public static final int spriteLength=30;	//Taille des case
-	public static final int delai=100;	//Delai d'affichage
+	public static final int spriteLength=25;	//Taille des case
+	public static final int delai=10;	//Delai d'affichage
 
-
-
-	
 
 	private ArrayList<Agent> agent;
 	private Map m;
@@ -46,7 +43,7 @@ public class World extends JPanel{
 
 		frame = new JFrame("World of Sprite");
 		frame.add(this);
-		frame.setSize(spriteLength*sizex,spriteLength*sizey);
+		frame.setSize(spriteLength*sizex,spriteLength*sizey+22);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -68,34 +65,54 @@ public class World extends JPanel{
 	}
 
 	public void step(){
-		m.step();
+		m.step(agent); //MAJ de la map
 
-		for (int i=0; i<agent.size();i++){
-			agent.get(i).step();
-			removeAgent();
+		for (int i=0; i<agent.size();i++){ //MAJ des agents
+			agent.get(i).step(agent);
+			if(agent.get(i).alive==false){
+				agent.remove(agent.get(i));
+			}
 		}
 
-		for (int i=0;i<5;i++){
+		for (int i=0;i<5;i++){ //Affichage de deplacement
 			iteration=i;
 			repaint();
 			try {
 				Thread.sleep(delai);
 			} catch (InterruptedException e) {}
 		}
-		for (int i=0; i<agent.size();i++){
+		for (int i=0; i<agent.size();i++){ //MAJ des deplacements des agents 
 			agent.get(i).move();
+			wolfEat(agent.get(i));
 		}
 		
 	}
 
-	public void removeAgent(){
+	public void wolfEat(Agent a){
+		if(a.getName().equals("wolf")){
+			for (int y=0; y<agent.size();y++){
+				if(agent.get(y).getName().equals("goat") && agent.get(y).getX()==a.getX() && agent.get(y).getY()==a.getY()){
+					agent.get(y).setAlive(false);
+				}
+			}
+		}
+	}
+	
+	public void removeAgent(){ //Eneleve les agents de la liste si alive = false
 		for (int i=0; i<agent.size();i++){
 			if(agent.get(i).alive==false){
 				agent.remove(agent.get(i));
 			}
 		}
 	}
-	
+
+	public static boolean isAgent(int x,int y, ArrayList<Agent> agent){ //Fonction qui return vrai s'il n'a pas de agent sur cette position
+		for (Agent a : agent ){
+			if(a.getX()==x && a.getY()==y)
+				return false;
+		}
+		return true;
+	}
 	//Accesseur 
 	public Map getMap(){
 		return m;
@@ -112,30 +129,19 @@ public class World extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		World w = new World(25,25);
+		World w = new World(50,25);
 		double probabilite = 0.0;
 
 		//w.addAgent(new Alligator(1000000,w.getMap(),"alligator.png"));
 		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
-		w.addAgent(new Goat(100000, w.getMap()));
+	
+	
 
 		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-		w.addAgent(new Wolf(100000, w.getMap()));
-
+	
 		int i=0;
 		String s="lol";
+		
 		while (true){
 			System.out.println(i);
 			w.step();

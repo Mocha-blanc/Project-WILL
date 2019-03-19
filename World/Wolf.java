@@ -10,8 +10,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 public class Wolf extends Agent{
+
+	public static final int DETECTION=10;
+
 	public Wolf(int life, Map m){
 		super(life,m,"wolf");
 		do{
@@ -20,9 +24,12 @@ public class Wolf extends Agent{
 		}while(m.getTerrain(x,y)==Map.WATER);
 		life=life;
 	}
-	public void step(){
-		
-		direction=(int)(Math.random()*4);
+
+	public void step(ArrayList<Agent> a){
+		direction=-1;
+		rayonDetection("goat", DETECTION, a);
+		if(direction == -1)
+			direction=(int)(Math.random()*4);
 		int x1=x;
 		int y1=y;
 		
@@ -31,9 +38,9 @@ public class Wolf extends Agent{
         if ( direction == EST)	// est
         	x1 = (x1 + 1);
         if ( direction == SUD)	// sud
-         	y1 = (y1 + 1) ;
+         	y1 = (y1 + 1);
         if ( direction == WEST)// ouest
-         	x1 = (x1 - 1) ;
+         	x1 = (x1 - 1);
 
 
         if (m.getTerrain(x1,y1)==Map.SAND && m.getTree(x1,y1).getLife()==0){
@@ -47,11 +54,19 @@ public class Wolf extends Agent{
 		}
         life=life-1;
 	}
-	public void eat(){
+	//Deplacement intelligent n=nom de l'agent ciblé, i=iteration maximum detectable, ne pas mettre trop d'iteration car fonction tres gourmand 
+	public void rayonDetection(String n, int i, ArrayList<Agent> a){
+		int iteration=1;
+		do{
+			direction=detection(x,y,n, iteration, a);
+			iteration++;
+		}while(direction==-1 && iteration<=i);
+	}
+	/*public void eat(){
 		if(m.getObject(x,y)==Map.GRASS){
 			m.setObject(x,y,Map.VIDE);
 		}					
-	}
+	}*/
 	public void move(){
 		if (move==true){
 			if ( direction == NORD) // nord
@@ -62,8 +77,8 @@ public class Wolf extends Agent{
         	 	y = (y + 1) ;
         	if ( direction == WEST)// ouest
          		x = (x - 1) ;
-         }
-         eat();
+        }
+        //eat();
     }
     public int getDirection(){
 		return direction;

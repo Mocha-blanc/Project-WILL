@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+
 
 public class Humain extends Agent{
 	public Humain(int life, Map m){
@@ -22,7 +24,7 @@ public class Humain extends Agent{
 		
 	}
 
-	public void step(){
+	public void step(ArrayList<Agent> a){
 		
 		direction=(int)(Math.random()*4);
 		int x1=x;
@@ -48,6 +50,12 @@ public class Humain extends Agent{
 			alive=false;
 		}
         life=life-1;
+	}
+	public void rayonDetection(String n, int i, ArrayList<Agent> a){
+		int iteration=1;
+		do{
+			direction=detection(x,y,n, i, a);
+		}while(direction==-1 || iteration<=i);
 	}
 	public void move(){
 		if (move==true){

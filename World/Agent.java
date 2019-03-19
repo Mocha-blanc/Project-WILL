@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 public abstract class Agent {
 
@@ -38,6 +39,60 @@ public abstract class Agent {
 		alive=true;
 		
 	}
+	//L'utilisation pour l'intelligence artificielle
+	public static int detection(int x, int y, String n, int i, ArrayList<Agent> a){
+		int x1=x;
+		int y1=y;
+		if(i<=0){
+			return -1;
+		}
+		if(findAgent(x1, y1 - 1,a)!=null && findAgent(x1, y1 - 1, a).getName().equals(n)){
+			return Agent.NORD;
+		}
+
+		if(findAgent(x1 + 1, y1,a)!=null && findAgent(x1 + 1, y1, a).getName().equals(n)){
+			return Agent.EST;
+		}
+
+		if(findAgent(x1, y1 + 1,a)!=null && findAgent(x1, y1 + 1, a).getName().equals(n)){
+			return Agent.SUD;
+		}
+
+		if(findAgent(x1 - 1, y1,a)!=null && findAgent(x1 - 1, y1, a).getName().equals(n)){
+			return Agent.WEST;
+		}
+
+
+		if(0<=detection(x1, y1 - 1,n,i-1,a)){
+			return Agent.NORD;
+		}
+		if(0<=detection(x1 + 1, y1,n ,i-1,a)){
+			return Agent.EST;
+		}
+		if(0<=detection(x1, y1 + 1,n ,i-1,a)){
+			return Agent.SUD;
+		}
+		if(0<=detection(x1 - 1, y1, n,i-1, a)){
+			return Agent.WEST;
+		}
+
+		return -1;
+	}
+
+	public static Agent findAgent(int x, int y, ArrayList<Agent> agent){
+		for (Agent a : agent){
+			if(a.getX()==x && a.getY()==y){
+				return a;
+			}
+		}
+		return null;
+	}
+
+	//Set
+	public void setAlive(boolean l){
+		alive=l;
+	}
+	//Accesseur
 	public String getName(){
 		return name;
 	}
@@ -56,8 +111,9 @@ public abstract class Agent {
 	/*public World getWorld(){
 		return w;
 	}*/
+	public abstract void rayonDetection(String n, int i, ArrayList<Agent> a);
 	public abstract void move();
-	public abstract void step();
+	public abstract void step(ArrayList<Agent> a);
 	public abstract int getDirection();
 
 	

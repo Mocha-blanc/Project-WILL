@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 public class Alligator extends Agent{
 
@@ -22,7 +23,7 @@ public class Alligator extends Agent{
 		life=life;
 	}
 
-	public void step(){
+	public void step(ArrayList<Agent> a){
 		
 		direction=(int)(Math.random()*4);
 		int x1=x;
@@ -64,6 +65,12 @@ public class Alligator extends Agent{
          }
     }
 
+	public void rayonDetection(String n, int i, ArrayList<Agent> a){
+		int iteration=1;
+		do{
+			direction=detection(x,y,n, i, a);
+		}while(direction==-1 || iteration<=i);
+	}
 
 	//Accesseur 
 

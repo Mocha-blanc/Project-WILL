@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class Map{
 
 	//Probabilite de réaparition qui sont dans les step
-	public final static double BGRASS=0.1;  //Herbre
-	public final static double BTREE=0.01; //Arbre
+	public final static double BGRASS=0.1;  //Probabilite d'apparition d'Herbre
+	public final static double BTREE=0.01; //Probabilite d'apparition d'Arbre
 
-	public final static double BFEU=0.01; //Feu
-	public final static double PFEU=0.01;
+	public final static double BFIRE=0.5; //Probabilite de contamination Feu de foret  
 
+	public final static double BLIGHTNING=0.1; //Probabilite d'apparition de foudre Foudre, pas complet pour l'affichage
 
 
 	private int x;
@@ -30,33 +30,39 @@ public class Map{
     public static final int SAND=2; //Sable
 	//Object
 	public static final int GRASS=1; //Herbe
+	//Effet
+	public static final int LIGHTNING=1;	//Foudre
 	
 	//Tableau d'affichage 
-	private int terrain[][];
-	private Tree tree[][];
-	private int object[][];
+	private int terrain[][];//Arriere plan qui est rarement modifier
 
+	private Tree tree[][];//Feu de foret 
 	private Tree tabTree[][];
+
+	private int object[][];//Affichage d'objet sur le terrain
+
+	private int effect[][];//Affichage qui apparait pendant un court iteration
+
 	private Sprite image;
 	public Map(int x, int y){
 		this.x=x;
 		this.y=y;
 		image = new Sprite();
 
-		//affichage = new Terrain[x][y];
 
 		terrain=new int[x][y];
 		object=new int [x][y];
+		effect=new int[x][y];
 		tree=new Tree[x][y];
 
 		tabTree=new Tree[x][y];
 		for (int i=0; i<x ;i++)
 			for (int j=0; j<y ; j++){
-				//affichage[i][j]= new Water(i,j);
 				terrain[i][j]=WATER;
 				tree[i][j]=new Tree(i,j);
 				tabTree[i][j]=tree[i][j];
 				object[i][j]=VIDE;
+				effect[i][j]=VIDE;
 			}
 		for (int i=3; i<x-3; i++)
 			for (int j=3; j<y-3; j++){
@@ -69,71 +75,90 @@ public class Map{
 			for (int j=0; j<y ; j++){
 				image.affichageTerrain(g2,frame,i,j,terrain[i][j]);
 				image.affichageObject(g2,frame,i,j,object[i][j]);
-				tree[i][j].affichage(g2,frame);
+				image.affichageTree(g2,frame,tree[i][j]);
 			}
 	}
 
-	public void step(){
-		stepObject();
-		stepTree();
+	public void step(ArrayList<Agent> agent){
+
+		stepObject(agent);
+		stepEffect();
+		stepTree(agent);
 	}
-	public void stepObject(){
+
+	public void stepObject(ArrayList<Agent> agent){
 		for (int i=0; i<x ; i++)
 			for (int j=0; j<y ; j++)
 				if(terrain[i][j]==SAND)
 				{
-					if(BGRASS>Math.random()) 	
-						object[i][j]=GRASS;
+					if(BGRASS>Math.random()){
+						if(World.isAgent(i,j,agent))
+							object[i][j]=GRASS;
+					}
 				}
 	}
-	public void stepTree(){
+
+	public void stepTree(ArrayList<Agent> agent){
 		//Step de chaque arbre
 		for (int i=0; i<x;i++){
 			for(int j=0; j<y;j++){
-				tree[i][j].step();	
+				tree[i][j].step();
+				
 			}
 		}
 		//Progation du feu
-		for (int i=0; i<x ; i++)
-			for (int j=0; j<y ; j++)
+		for (int i=0; i<x ; i++){
+			for (int j=0; j<y ; j++){
 				if(terrain[i][j]==SAND)
 				{
 
 					if(tree[i][j].isAlive()==true && tree[i][j].isBurn()==false){//Prend feu a proximiter
-						if (BFEU>Math.random()) {
+						if (BFIRE>Math.random()) {
 							tabTree[i][j].burn();
-						}else if(tree[i+1][j].isBurn()==true){
+						}else if(tree[i+1][j].isBurn()==true && BFIRE>Math.random()){
 							tabTree[i][j].burn();
-						}else if(tree[i-1][j].isBurn()==true ){
+						}else if(tree[i-1][j].isBurn()==true && BFIRE>Math.random()){
 							tabTree[i][j].burn();
-						}else if(tree[i][j+1].isBurn()==true){
+						}else if(tree[i][j+1].isBurn()==true && BFIRE>Math.random()){
 							tabTree[i][j].burn();
-						}else if(tree[i][j-1].isBurn()==true ){
+						}else if(tree[i][j-1].isBurn()==true && BFIRE>Math.random()){
 							tabTree[i][j].burn();
 						}else{
 							tabTree[i][j]=tree[i][j];
 						}
-					}else if(tree[i][j].isAlive()==false){
+					}else if(tree[i][j].isAlive()==false && tree[i][j].isBurn()==false){
 						if(BTREE>Math.random()){
-							tabTree[i][j].alive(); //L'arbre est initialiser
+							if(World.isAgent(i,j,agent)==true)
+								tabTree[i][j].alive(); //L'arbre est initialiser
 						}
 					}else {
 						tabTree[i][j]=tree[i][j];
 					}
 				}
+			}
+		}
 
 
 		//MAJ de l'automate
-		for (int i=0; i<x ; i++)
+		for (int i=0; i<x ; i++){
 			for (int j=0; j<y ; j++){
-				tree[i][j]= Tree.clonage(tabTree[i][j]);
+				tree[i][j]= new Tree(tabTree[i][j]);
 				
 			}
-
-
-
+		}
+	}
+	public void stepEffect(){
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				effect[i][j]=VIDE;
+				if(BLIGHTNING>Math.random())
+					effect[i][j]=LIGHTNING;
+			}
+		}
 	}
 
+
+	//Set
 	public void setObject(int x,int y, int v){
 		object[x][y]=v;
 	}
