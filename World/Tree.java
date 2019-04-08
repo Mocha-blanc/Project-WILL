@@ -2,7 +2,7 @@
 
 public class Tree {
 	public final static int LIFE=10;
-
+	
 	private int x,y;
 
 	private boolean burn;
@@ -44,6 +44,9 @@ public class Tree {
 
 	public void burn(){
 		burn=true;
+	}
+	public void rain() {
+		burn=false;
 	}
 	public void alive(){
 		life=LIFE;
