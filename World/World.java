@@ -25,7 +25,7 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 	public static final int BULBIZARRE=20;
 	public static final double BCLOUD=0.01; //Probabilité d'apparition des nuages a chaque iteration
 	
-	public static int delai=50;	//Delai d'affichage
+	public static int delai=40;	//Delai d'affichage
 	public static int X=0;
 	public static int Y=0;
 	
@@ -205,7 +205,7 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 	}
 	
 	public static void main(String[] args) {
-		World w = new World(200,200);
+		World w = new World(100,100);
 		w.addKeyListener(w);
 		w.addMouseWheelListener(w);
 	    w.setFocusable(true);
