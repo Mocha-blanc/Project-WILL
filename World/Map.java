@@ -106,6 +106,8 @@ public class Map{
 		stepObject(agent); 
 		stepTree(agent);
 		stepEffect();
+		if(World.FIN==true)
+			stepVolcano();
 
 	}
 
@@ -185,7 +187,30 @@ public class Map{
 			}
 		}
 	}
-	
+	//Tbleau pour l'ecoulement de la lave
+	public void stepVolcano() {
+		int tabT[][]=new int[x][y];
+		for(int i=1;i<x-1;i++)
+			for(int j=1;j<y-1;j++) {
+				if(lava[i][j]==1) {
+					tabT[i][j]=1;
+				}else if(lava[i][j-1]==1) {
+					tabT[i][j]=1;
+				}else if(lava[i+1][j]==1) {
+					tabT[i][j]=1;
+				}else if(lava[i][j+1]==1) {
+					tabT[i][j]=1;
+				}else if(lava[i-1][j-1]==1) {
+					tabT[i][j]=1;
+				}else {
+					tabT[i][j]=0;
+				}
+			}
+		for(int i=1;i<x-1;i++)
+			for(int j=1;j<y-1;j++)
+				lava[i][j]=tabT[i][j];
+			
+	}
 	//Bruit de perlin (fonction trouver sur internet)
 	public static double Get2DPerlinNoiseValue(double x, double y, double res)
 	{
