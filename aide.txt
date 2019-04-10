@@ -1,0 +1,17 @@
+#aide.txt
+
+Pour faire fonctionner le programme, il faut tout d'abord télécharger, puis le compiler, et enfin l'exécuter,
+pour cela il faut procéder comme ce qui suit :
+
+Aide Terminal Linux :
+cd
+git clone https://github.com/Mocha-blanc/WORLD_POKE.git
+cd WORLD_POKE
+cd WORLD
+javac *.java
+java World
+
+Aide clavier :
+Zoom ou Dézoom : roulette de la souris
+Orienter l’affichage : Z, Q, S, D
+Ralentir/Accélérer le délai (-5 ou +5 à chaque appui de touche) : <- / ->

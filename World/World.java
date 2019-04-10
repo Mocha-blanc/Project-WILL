@@ -28,7 +28,8 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 	public static int delai=40;	//Delai d'affichage
 	public static int X=0;
 	public static int Y=0;
-	
+	public static boolean PAUSE = false;
+	public static boolean FIN = false;
 
 	//A ne pas modifier
 	private Gestion_agent agent;
@@ -214,11 +215,10 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 	    	w.getGestion_agent().addStater(new Carapuce(w.getMap()));
 	    	w.getGestion_agent().addStater(new Bulbizar(w.getMap()));
 	    }
-		int i=0;
 		while (true){
-			System.out.println("Iteration = "+i);
-			w.step();
-			i++;
+			System.out.println(PAUSE);
+			if(PAUSE==false)
+				w.step();
 		}
 	}
 

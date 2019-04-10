@@ -16,9 +16,9 @@ public class Egg extends Agent{
 			if(type==Starter.FEU) {
 				a.add(new Salameche(x,y, m));
 			}else if(type==Starter.EAU){
-				
+				a.add(new Carapuce(x,y, m));
 			}else if(type==Starter.HERBE) {
-				
+				a.add(new Bulbizar(x,y, m));
 			}
 		}
 	}
