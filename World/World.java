@@ -49,6 +49,12 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 
 		m=new Map(sizex,sizey);
 		agent=new Gestion_agent();
+		for(int cpt=0; cpt<SALAMECHE; cpt++)
+	    	agent.addStater(new Salameche(m));	
+	    for(int cpt=0; cpt<CARAPUCE; cpt++)  	
+	    	agent.addStater(new Carapuce(m));
+	    for(int cpt=0; cpt<BULBIZARRE; cpt++)
+	    	agent.addStater(new Bulbizar(m));
 		image=new Sprite();
 
 		frame = new JFrame("World of Sprite");
@@ -138,13 +144,13 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 	public void mouseWheelMoved(MouseWheelEvent e) { // Utilise pour ZOOM in et ZOOM out
 
         //Zoom in
-        if(e.getWheelRotation()<0 ){//scroll vers le bas 
+        if(e.getWheelRotation()<0 && spriteLength<40){//scroll vers le bas 
         	spriteLength+=1; 
            
         }
         //Zoom out
         if(e.getWheelRotation()>0 && (frame.getWidth()<spriteLength*(sizex-1) || frame.getHeight()<spriteLength*sizey-1)){ //scroll vers le haut
-        	if((X*-1)*spriteLength+frame.getWidth()<spriteLength*sizex && (Y*-1)*spriteLength+frame.getHeight()<spriteLength*sizey) {
+        	if((X*-1)*spriteLength+frame.getWidth()<spriteLength*sizex && (Y*-1)*spriteLength+frame.getHeight()<spriteLength*sizey ) {
         		spriteLength-=1;
         	}else {
               	if(X<0) 
@@ -210,11 +216,7 @@ public class World extends JPanel implements MouseWheelListener, KeyListener{
 		w.addKeyListener(w);
 		w.addMouseWheelListener(w);
 	    w.setFocusable(true);
-	    for(int cpt=0; cpt<SALAMECHE; cpt++) {
-	    	w.getGestion_agent().addStater(new Salameche(w.getMap()));	    	
-	    	w.getGestion_agent().addStater(new Carapuce(w.getMap()));
-	    	w.getGestion_agent().addStater(new Bulbizar(w.getMap()));
-	    }
+	   
 		while (true){
 			System.out.println(PAUSE);
 			if(PAUSE==false)
